@@ -3,1284 +3,912 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McGoos Automotive Detail | Professional Car Detailing</title>
+    <title>GreenScape Landscaping | Demo Site</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-red: #c8102e;
-            --primary-blue: #0033a0;
-            --primary-white: #ffffff;
-            --light-gray: #f5f5f5;
-            --dark-gray: #333333;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
+        :root {
+            --primary-green: #2E8B57;
+            --light-green: #3CB371;
+            --dark-green: #1E6B47;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --text-color: #333333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
         body {
-            color: var(--dark-gray);
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
         }
-        
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--medium-gray);
+            border-top: 5px solid var(--primary-green);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            color: var(--dark-green);
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Page Container */
+        .page-container {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
         /* Header & Navigation */
         header {
-            background-color: var(--primary-white);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--white);
+            box-shadow: var(--shadow);
             position: fixed;
             width: 100%;
+            top: 0;
             z-index: 1000;
-            padding: 0 5%;
         }
-        
+
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
+
         .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-green);
             display: flex;
             align-items: center;
         }
-        
-        .logo h1 {
-            font-size: 1.8rem;
-            color: var(--primary-blue);
-            margin-left: 10px;
-        }
-        
+
         .logo i {
-            color: var(--primary-red);
+            margin-right: 10px;
             font-size: 2rem;
         }
-        
-        .nav-links {
+
+        nav ul {
             display: flex;
             list-style: none;
         }
-        
-        .nav-links li {
-            margin-left: 30px;
+
+        nav ul li {
+            margin-left: 2rem;
         }
-        
-        .nav-links a {
+
+        nav ul li a {
             text-decoration: none;
-            color: var(--primary-blue);
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: color 0.3s;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
             position: relative;
         }
-        
-        .nav-links a:hover {
-            color: var(--primary-red);
+
+        nav ul li a:hover {
+            color: var(--primary-green);
         }
-        
-        .nav-links a::after {
+
+        nav ul li a::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 3px;
-            background: var(--primary-red);
-            left: 0;
+            height: 2px;
             bottom: -5px;
-            transition: width 0.3s;
+            left: 0;
+            background-color: var(--primary-green);
+            transition: width 0.3s ease;
         }
-        
-        .nav-links a:hover::after {
+
+        nav ul li a:hover::after {
             width: 100%;
         }
-        
+
         .mobile-menu-btn {
             display: none;
-            font-size: 1.5rem;
-            color: var(--primary-blue);
             background: none;
             border: none;
+            font-size: 1.5rem;
+            color: var(--primary-green);
             cursor: pointer;
         }
-        
+
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0, 51, 160, 0.8), rgba(200, 16, 46, 0.8)), url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), 
+                        url('https://images.unsplash.com/photo-1600585154340-963ed7476d07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
             background-size: cover;
             background-position: center;
             height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--primary-white);
-            padding-top: 80px;
+            padding: 0 2rem;
         }
-        
+
         .hero-content {
-            max-width: 800px;
-            padding: 0 20px;
-            animation: fadeUp 1s ease-out;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
-        
-        .hero h2 {
+
+        .hero h1 {
             font-size: 3.5rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.3s forwards;
         }
-        
+
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background-color: var(--primary-red);
-            color: white;
-            padding: 15px 40px;
             font-size: 1.2rem;
-            font-weight: 600;
-            text-decoration: none;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: slideUp 1s ease-out 0.6s forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            background-color: var(--primary-green);
+            color: var(--white);
+            border: none;
             border-radius: 50px;
-            transition: all 0.3s;
-            border: 2px solid var(--primary-red);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 139, 87, 0.3);
         }
-        
-        .cta-button:hover {
-            background-color: transparent;
-            border-color: var(--primary-white);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+        .btn:hover {
+            background-color: var(--dark-green);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(46, 139, 87, 0.4);
         }
-        
+
+        .btn i {
+            margin-right: 8px;
+        }
+
         /* Page Sections */
         .page-section {
-            padding: 100px 5%;
-            display: none;
-        }
-        
-        .active-page {
-            display: block;
-            animation: fadeIn 0.8s ease-out;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-            color: var(--primary-blue);
-            position: relative;
-        }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            display: inline-block;
-            padding-bottom: 15px;
-        }
-        
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background: var(--primary-red);
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 0;
-        }
-        
-        /* Home Page */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-        
-        .service-card {
-            background: var(--primary-white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.5s;
-            border-top: 5px solid var(--primary-blue);
-        }
-        
-        .service-card:hover {
-            transform: translateY(-15px);
-            border-top-color: var(--primary-red);
-        }
-        
-        .service-icon {
-            background: var(--light-gray);
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: var(--primary-blue);
-        }
-        
-        .service-content {
-            padding: 25px;
-        }
-        
-        .service-content h3 {
-            color: var(--primary-blue);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-        
-        /* About Page */
-        .about-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
-            align-items: center;
-        }
-        
-        .about-text h3 {
-            color: var(--primary-blue);
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-        }
-        
-        .about-text p {
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-        
-        .about-image {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Services Page */
-        .services-detail {
+            padding: 5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
-        
-        .service-tier {
-            background: var(--light-gray);
-            border-radius: 10px;
-            padding: 40px;
-            margin-bottom: 40px;
-            border-left: 5px solid var(--primary-blue);
-            transition: all 0.3s;
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            position: relative;
         }
-        
-        .service-tier:hover {
-            border-left-color: var(--primary-red);
-            transform: translateX(10px);
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-green);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        
-        .service-tier h3 {
-            color: var(--primary-blue);
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .service-tier h3 i {
-            margin-right: 10px;
-            color: var(--primary-red);
-        }
-        
-        .service-tier ul {
-            list-style-position: inside;
-            margin-bottom: 20px;
-        }
-        
-        .service-tier li {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .price {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-red);
-        }
-        
-        /* Gallery Page */
-        .gallery-grid {
+
+        /* Services Section */
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
-        
-        .gallery-item {
+
+        .service-card {
+            background-color: var(--white);
             border-radius: 10px;
             overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-img {
+            height: 200px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .service-content {
+            padding: 1.5rem;
+        }
+
+        .service-content h3 {
+            margin-bottom: 0.8rem;
+            font-size: 1.5rem;
+        }
+
+        /* Gallery Section */
+        .gallery-container {
+            background-color: var(--light-gray);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
             height: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
             position: relative;
             cursor: pointer;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: transform 0.5s ease, opacity 0.5s ease;
         }
-        
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s;
+            transition: transform 0.5s ease;
         }
-        
+
         .gallery-item:hover img {
             transform: scale(1.1);
         }
-        
-        .gallery-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(200, 16, 46, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-        
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-        
-        /* Booking Page */
-        .booking-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .contact-info {
-            background: var(--light-gray);
-            padding: 40px;
-            border-radius: 10px;
-        }
-        
-        .contact-info h3 {
-            color: var(--primary-blue);
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-        }
-        
-        .contact-detail {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .contact-detail i {
-            width: 50px;
-            height: 50px;
-            background: var(--primary-blue);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            margin-right: 15px;
-        }
-        
-        .booking-form {
-            background: var(--primary-white);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--primary-blue);
-            font-weight: 600;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border 0.3s;
-        }
-        
-        .form-control:focus {
-            border-color: var(--primary-blue);
-            outline: none;
-        }
-        
-        .submit-btn {
-            background: var(--primary-red);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .submit-btn:hover {
-            background: var(--primary-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Contact Page */
+
+        /* Contact Section */
         .contact-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-right: 1rem;
+            width: 30px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
-        .map-container {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            height: 400px;
-        }
-        
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .business-hours {
-            background: var(--light-gray);
-            padding: 40px;
-            border-radius: 10px;
-        }
-        
-        .business-hours h3 {
-            color: var(--primary-blue);
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-        }
-        
-        .hours-table {
-            width: 100%;
-        }
-        
-        .hours-table tr {
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .hours-table td {
-            padding: 12px 0;
-        }
-        
-        .hours-table td:last-child {
-            font-weight: 600;
-            color: var(--primary-blue);
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--primary-blue);
-            color: var(--primary-white);
-            padding: 60px 5% 30px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-logo h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--primary-white);
-        }
-        
-        .footer-links h4, .footer-social h4 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: var(--primary-white);
-        }
-        
-        .footer-links ul {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-links a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: var(--primary-red);
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-        
-        .social-icons a:hover {
-            background: var(--primary-red);
-            transform: translateY(-5px);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+        .footer-notice {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
             font-size: 0.9rem;
-            color: #ddd;
         }
-        
-        /* Animations */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
         }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
+
+        .social-links a:hover {
+            color: var(--light-green);
         }
-        
+
+        .copyright {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
         /* Responsive Design */
-        @media (max-width: 992px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
                 width: 100%;
-                background: var(--primary-white);
+                background-color: var(--white);
                 flex-direction: column;
-                padding: 20px;
-                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             }
-            
-            .nav-links.active {
-                display: flex;
+
+            .nav-menu.active {
+                left: 0;
             }
-            
-            .nav-links li {
-                margin: 10px 0;
+
+            .nav-menu li {
+                margin: 1rem 0;
             }
-            
+
             .mobile-menu-btn {
                 display: block;
             }
-            
-            .hero h2 {
+
+            .hero h1 {
                 font-size: 2.5rem;
             }
-            
-            .section-title h2 {
+
+            .section-title {
                 font-size: 2rem;
             }
         }
-        
-        @media (max-width: 768px) {
-            .hero {
-                height: 80vh;
-            }
-            
-            .hero h2 {
-                font-size: 2rem;
-            }
-            
-            .page-section {
-                padding: 80px 5%;
-            }
-        }
-        
-        /* Booking Confirmation Modal */
-        .modal {
+
+        /* Page Navigation */
+        .page {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
+            min-height: 100vh;
+            padding-top: 80px;
         }
-        
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 50px;
-            border-radius: 10px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            animation: fadeUp 0.5s;
-        }
-        
-        .modal-icon {
-            font-size: 4rem;
-            color: var(--primary-red);
-            margin-bottom: 20px;
-        }
-        
-        .modal-content h3 {
-            color: var(--primary-blue);
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-        
-        .close-modal {
-            background: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background 0.3s;
-        }
-        
-        .close-modal:hover {
-            background: var(--primary-red);
+
+        .page.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Header & Navigation -->
-    <header>
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-car"></i>
-                <h1>McGoos Automotive Detail</h1>
-            </div>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#" data-page="home" class="nav-link active">Home</a></li>
-                <li><a href="#" data-page="about" class="nav-link">About</a></li>
-                <li><a href="#" data-page="services" class="nav-link">Services</a></li>
-                <li><a href="#" data-page="gallery" class="nav-link">Gallery</a></li>
-                <li><a href="#" data-page="booking" class="nav-link">Booking</a></li>
-                <li><a href="#" data-page="contact" class="nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </header>
-    
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h2>Professional Automotive Detailing</h2>
-            <p>Restore your vehicle's shine with our premium detailing services in Lawrenceville, GA. Experience the McGoos difference today!</p>
-            <a href="#" data-page="booking" class="cta-button nav-link">Book Now</a>
-        </div>
-    </section>
-    
-    <!-- Home Page -->
-    <section id="home" class="page-section active-page">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Premium Services</h2>
-            </div>
-            
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-spray-can"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>Exterior Detailing</h3>
-                        <p>Complete exterior wash, clay bar treatment, polish, and wax to restore your vehicle's shine and protect the paint.</p>
-                    </div>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <p class="loading-text">Loading GreenScape Landscaping...</p>
+    </div>
+
+    <!-- Website Content -->
+    <div class="page-container" id="main-content">
+        <!-- Header -->
+        <header>
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-tree"></i>
+                    <span>GreenScape</span>
                 </div>
                 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-vacuum"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>Interior Detailing</h3>
-                        <p>Deep cleaning of all interior surfaces, upholstery shampooing, leather conditioning, and odor elimination.</p>
-                    </div>
-                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
                 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-tint"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>Premium Add-ons</h3>
-                        <p>Ceramic coating, paint correction, headlight restoration, and engine bay detailing for complete vehicle care.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- About Page -->
-    <section id="about" class="page-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>About McGoos Automotive Detail</h2>
-            </div>
-            
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Your Trusted Detailing Experts Since 2015</h3>
-                    <p>At McGoos Automotive Detail, we believe that your vehicle deserves the best care possible. Founded by John McGoo in Lawrenceville, GA, our family-owned business has been providing top-tier automotive detailing services to the local community for nearly a decade.</p>
-                    <p>We take pride in our attention to detail and commitment to using only the highest quality products and equipment. Our team of certified detailers undergoes continuous training to stay updated with the latest techniques in the industry.</p>
-                    <p>Our mission is simple: to restore and protect your vehicle, ensuring it looks its best while maintaining its value. Whether you need a quick wash or a complete detail, we treat every vehicle as if it were our own.</p>
-                    <p>Visit us at our location on Alcovy Woods Drive, and experience the McGoos difference for yourself!</p>
-                </div>
-                
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1565689221354-d87f85d4aee2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="McGoos Automotive Detail team">
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Services Page -->
-    <section id="services" class="page-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Detailed Services</h2>
-            </div>
-            
-            <div class="services-detail">
-                <div class="service-tier">
-                    <h3><i class="fas fa-star"></i> Basic Detail Package</h3>
-                    <p>Perfect for regular maintenance and keeping your vehicle looking clean and fresh.</p>
-                    <ul>
-                        <li>Exterior Hand Wash & Dry</li>
-                        <li>Tire and Wheel Cleaning</li>
-                        <li>Window Cleaning (Inside & Out)</li>
-                        <li>Interior Vacuuming</li>
-                        <li>Dashboard & Console Wipe Down</li>
+                <nav>
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#" data-page="home">Home</a></li>
+                        <li><a href="#" data-page="about">About</a></li>
+                        <li><a href="#" data-page="services">Services</a></li>
+                        <li><a href="#" data-page="gallery">Gallery</a></li>
+                        <li><a href="#" data-page="contact">Contact</a></li>
+                        <li><a href="#" data-page="testimonials">Testimonials</a></li>
+                        <li><a href="#" data-page="booking">Booking</a></li>
                     </ul>
-                    <p class="price">Starting at $89</p>
-                </div>
-                
-                <div class="service-tier">
-                    <h3><i class="fas fa-crown"></i> Premium Detail Package</h3>
-                    <p>Our most popular package for a thorough clean inside and out.</p>
-                    <ul>
-                        <li>Everything in Basic Package</li>
-                        <li>Clay Bar Treatment</li>
-                        <li>Hand Wax Application</li>
-                        <li>Interior Deep Cleaning</li>
-                        <li>Upholstery Shampooing</li>
-                        <li>Leather Conditioning</li>
-                        <li>Odor Elimination Treatment</li>
-                    </ul>
-                    <p class="price">Starting at $189</p>
-                </div>
-                
-                <div class="service-tier">
-                    <h3><i class="fas fa-gem"></i> Ultimate Detail Package</h3>
-                    <p>The ultimate detailing experience for showroom-quality results.</p>
-                    <ul>
-                        <li>Everything in Premium Package</li>
-                        <li>Paint Correction & Polish</li>
-                        <li>Ceramic Coating Application</li>
-                        <li>Engine Bay Detailing</li>
-                        <li>Headlight Restoration</li>
-                        <li>Full Interior Sanitization</li>
-                        <li>Fabric & Carpet Protection</li>
-                    </ul>
-                    <p class="price">Starting at $349</p>
-                </div>
+                </nav>
             </div>
-        </div>
-    </section>
-    
-    <!-- Gallery Page -->
-    <section id="gallery" class="page-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Work Gallery</h2>
-            </div>
-            
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Car Detailing">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus fa-3x"></i>
+        </header>
+
+        <!-- Pages -->
+        <main>
+            <!-- Home Page -->
+            <section class="page active" id="home">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h1>Beautiful Landscapes, Lasting Impressions</h1>
+                        <p>Professional landscaping services for residential and commercial properties. We create stunning outdoor spaces that enhance your property's beauty and value.</p>
+                        <a href="#" class="btn" data-page="booking">
+                            <i class="fas fa-calendar-check"></i> Book Now
+                        </a>
+                        <a href="tel:+15551234567" class="btn" style="margin-left: 15px; background-color: var(--light-green);">
+                            <i class="fas fa-phone-alt"></i> Call Now
+                        </a>
                     </div>
                 </div>
-                
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1565689221359-5b3c6b86ca7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Interior Detailing">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus fa-3x"></i>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1565689221356-3c6b86ca7c9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Exterior Detailing">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus fa-3x"></i>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1565689221355-3c6b86ca7c9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wheel Cleaning">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus fa-3x"></i>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1565689221354-d87f85d4aee2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team at Work">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus fa-3x"></i>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1565689221358-3c6b86ca7c9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Final Results">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus fa-3x"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Booking Page -->
-    <section id="booking" class="page-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Book Your Appointment</h2>
-            </div>
-            
-            <div class="booking-container">
-                <div class="contact-info">
-                    <h3>Contact Information</h3>
-                    
-                    <div class="contact-detail">
-                        <i class="fas fa-map-marker-alt"></i>
+            </section>
+
+            <!-- About Page -->
+            <section class="page" id="about">
+                <div class="page-section">
+                    <h2 class="section-title">About GreenScape</h2>
+                    <div class="about-content" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
                         <div>
-                            <h4>Address</h4>
-                            <p>595 Alcovy Woods Dr, Lawrenceville, GA 30045</p>
+                            <h3 style="margin-bottom: 1rem;">Our Story</h3>
+                            <p>Founded in 2010, GreenScape Landscaping has been transforming outdoor spaces across the community for over a decade. What started as a small family business has grown into a trusted name in professional landscaping.</p>
+                            <p style="margin-top: 1rem;">Our team of certified horticulturists, landscape designers, and skilled technicians work together to bring your vision to life with creativity and precision.</p>
                         </div>
-                    </div>
-                    
-                    <div class="contact-detail">
-                        <i class="fas fa-phone"></i>
                         <div>
-                            <h4>Phone Number</h4>
-                            <p>(678) 878-0393</p>
+                            <h3 style="margin-bottom: 1rem;">Our Mission</h3>
+                            <p>We believe that beautiful outdoor spaces enrich lives and communities. Our mission is to design, create, and maintain landscapes that not only look stunning but also promote environmental sustainability.</p>
+                            <p style="margin-top: 1rem;">We use eco-friendly practices, native plants, and water-conservation techniques to ensure our landscapes are as healthy for the planet as they are beautiful.</p>
                         </div>
                     </div>
-                    
-                    <div class="contact-detail">
-                        <i class="fas fa-clock"></i>
+                </div>
+            </section>
+
+            <!-- Services Page -->
+            <section class="page" id="services">
+                <div class="page-section">
+                    <h2 class="section-title">Our Services</h2>
+                    <div class="services-grid">
+                        <div class="service-card" id="service1">
+                            <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80');"></div>
+                            <div class="service-content">
+                                <h3>Landscape Design</h3>
+                                <p>Custom landscape design tailored to your property's unique characteristics and your personal style.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card" id="service2">
+                            <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80');"></div>
+                            <div class="service-content">
+                                <h3>Lawn Maintenance</h3>
+                                <p>Regular mowing, fertilizing, and weed control to keep your lawn healthy and vibrant all year round.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card" id="service3">
+                            <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1598726660956-c5d4c5f5cb83?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80');"></div>
+                            <div class="service-content">
+                                <h3>Irrigation Systems</h3>
+                                <p>Design and installation of efficient irrigation systems that save water and keep your landscape lush.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card" id="service4">
+                            <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1601985705806-5b9a71f6004f?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80');"></div>
+                            <div class="service-content">
+                                <h3>Hardscaping</h3>
+                                <p>Patios, walkways, retaining walls, and other structural elements to enhance your outdoor living space.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card" id="service5">
+                            <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1598880940080-ff9a29891b85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1631&q=80');"></div>
+                            <div class="service-content">
+                                <h3>Seasonal Cleanup</h3>
+                                <p>Spring and fall cleanup services to prepare your landscape for the changing seasons.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card" id="service6">
+                            <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1503596476-1c12a8ba09a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80');"></div>
+                            <div class="service-content">
+                                <h3>Tree & Shrub Care</h3>
+                                <p>Pruning, disease treatment, and overall care for your trees and shrubs to ensure their health and beauty.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gallery Page -->
+            <section class="page" id="gallery">
+                <div class="page-section gallery-container">
+                    <h2 class="section-title">Our Work</h2>
+                    <div class="gallery-grid">
+                        <div class="gallery-item" id="gallery1">
+                            <img src="https://images.unsplash.com/photo-1600585154340-963ed7476d07?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" alt="Modern landscape design">
+                        </div>
+                        <div class="gallery-item" id="gallery2">
+                            <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80" alt="Garden pathway">
+                        </div>
+                        <div class="gallery-item" id="gallery3">
+                            <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1032&q=80" alt="Outdoor patio">
+                        </div>
+                        <div class="gallery-item" id="gallery4">
+                            <img src="https://images.unsplash.com/photo-1598880940080-ff9a29891b85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1631&q=80" alt="Water feature">
+                        </div>
+                        <div class="gallery-item" id="gallery5">
+                            <img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="Lawn maintenance">
+                        </div>
+                        <div class="gallery-item" id="gallery6">
+                            <img src="https://images.unsplash.com/photo-1601985705806-5b9a71f6004f?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Hardscaping project">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Page -->
+            <section class="page" id="contact">
+                <div class="page-section">
+                    <h2 class="section-title">Contact Us</h2>
+                    <div class="contact-container">
+                        <div class="contact-info">
+                            <h3 style="margin-bottom: 1.5rem;">Get In Touch</h3>
+                            
+                            <div class="contact-item">
+                                <i class="fas fa-phone-alt"></i>
+                                <div>
+                                    <h4>Phone</h4>
+                                    <p>+1 (555) 123-4567</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Email</h4>
+                                    <p>info@greenscapeexample.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <h4>Address</h4>
+                                    <p>123 Greenway Blvd, Garden City, GC 12345</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h4>Business Hours</h4>
+                                    <p>Monday - Friday: 8am - 6pm</p>
+                                    <p>Saturday: 9am - 4pm</p>
+                                    <p>Sunday: Emergency services only</p>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div>
-                            <h4>Business Hours</h4>
-                            <p>Monday - Saturday: 8:00 AM - 6:00 PM</p>
-                            <p>Sunday: 10:00 AM - 4:00 PM</p>
+                            <h3 style="margin-bottom: 1.5rem;">Ready to Transform Your Space?</h3>
+                            <p style="margin-bottom: 2rem;">Contact us today for a free consultation and estimate. Our team is ready to bring your landscaping vision to life.</p>
+                            <a href="#" class="btn" data-page="booking" style="display: inline-block; margin-top: 1rem;">
+                                <i class="fas fa-calendar-check"></i> Request Consultation
+                            </a>
                         </div>
                     </div>
-                    
-                    <div class="contact-detail">
-                        <i class="fas fa-info-circle"></i>
-                        <div>
-                            <h4>Appointment Info</h4>
-                            <p>Same-day appointments available based on schedule. We'll confirm your appointment within 2 hours.</p>
+                </div>
+            </section>
+
+            <!-- Testimonials Page -->
+            <section class="page" id="testimonials">
+                <div class="page-section">
+                    <h2 class="section-title">What Our Clients Say</h2>
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-content">
+                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--light-gray); display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: var(--primary-green); font-size: 1.5rem;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Sarah Johnson</h3>
+                                        <p style="font-size: 0.9rem; color: #666;">Homeowner</p>
+                                    </div>
+                                </div>
+                                <p>"GreenScape transformed our backyard into a paradise. Their attention to detail and creative design exceeded all our expectations. We enjoy our outdoor space more than ever!"</p>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-content">
+                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--light-gray); display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: var(--primary-green); font-size: 1.5rem;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Michael Rodriguez</h3>
+                                        <p style="font-size: 0.9rem; color: #666;">Business Owner</p>
+                                    </div>
+                                </div>
+                                <p>"The landscaping at our office building has received countless compliments. GreenScape's team is professional, punctual, and their work is exceptional. Highly recommended!"</p>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-content">
+                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--light-gray); display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: var(--primary-green); font-size: 1.5rem;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Emily Chen</h3>
+                                        <p style="font-size: 0.9rem; color: #666;">Property Manager</p>
+                                    </div>
+                                </div>
+                                <p>"We've used GreenScape for regular maintenance at several properties. Their team is reliable, thorough, and always goes above and beyond. Their seasonal cleanups are particularly impressive."</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- Booking Page -->
+            <section class="page" id="booking">
+                <div class="page-section">
+                    <h2 class="section-title">Book Our Services</h2>
+                    <div style="max-width: 800px; margin: 0 auto;">
+                        <div style="background-color: var(--white); border-radius: 10px; padding: 2.5rem; box-shadow: var(--shadow);">
+                            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-green);">Schedule a Free Consultation</h3>
+                            <p style="text-align: center; margin-bottom: 2rem;">Fill out the form below and we'll contact you within 24 hours to schedule your free, no-obligation consultation.</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                    <div>
+                                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">First Name</label>
+                                        <input type="text" style="width: 100%; padding: 0.8rem; border: 1px solid var(--medium-gray); border-radius: 5px; font-family: inherit;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Last Name</label>
+                                        <input type="text" style="width: 100%; padding: 0.8rem; border: 1px solid var(--medium-gray); border-radius: 5px; font-family: inherit;">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email</label>
+                                    <input type="email" style="width: 100%; padding: 0.8rem; border: 1px solid var(--medium-gray); border-radius: 5px; font-family: inherit;">
+                                </div>
+                                
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Phone</label>
+                                    <input type="tel" style="width: 100%; padding: 0.8rem; border: 1px solid var(--medium-gray); border-radius: 5px; font-family: inherit;">
+                                </div>
+                                
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Service Interested In</label>
+                                    <select style="width: 100%; padding: 0.8rem; border: 1px solid var(--medium-gray); border-radius: 5px; font-family: inherit;">
+                                        <option value="">Select a service</option>
+                                        <option value="design">Landscape Design</option>
+                                        <option value="maintenance">Lawn Maintenance</option>
+                                        <option value="irrigation">Irrigation Systems</option>
+                                        <option value="hardscaping">Hardscaping</option>
+                                        <option value="cleanup">Seasonal Cleanup</option>
+                                        <option value="treecare">Tree & Shrub Care</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Message</label>
+                                    <textarea rows="5" style="width: 100%; padding: 0.8rem; border: 1px solid var(--medium-gray); border-radius: 5px; font-family: inherit;"></textarea>
+                                </div>
+                                
+                                <div style="text-align: center; margin-top: 1rem;">
+                                    <button class="btn" style="padding: 1rem 3rem; font-size: 1.1rem;">
+                                        <i class="fas fa-paper-plane"></i> Submit Request
+                                    </button>
+                                    <p style="margin-top: 1.5rem; font-size: 0.9rem; color: #666;">Or call us directly at <a href="tel:+15551234567" style="color: var(--primary-green); font-weight: 600;">+1 (555) 123-4567</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-notice">
+                    <p><strong>DEMO WEBSITE NOTICE:</strong> This is a demonstration website for example purposes only. The contact information and services shown are not real. This site is intended to showcase web design capabilities for potential clients.</p>
                 </div>
                 
-                <div class="booking-form">
-                    <form id="bookingForm">
-                        <div class="form-group">
-                            <label for="name">Full Name *</label>
-                            <input type="text" id="name" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email">Email Address *</label>
-                            <input type="email" id="email" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="vehicle">Vehicle Make & Model *</label>
-                            <input type="text" id="vehicle" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="service">Service Package *</label>
-                            <select id="service" class="form-control" required>
-                                <option value="">Select a Service</option>
-                                <option value="basic">Basic Detail Package ($89+)</option>
-                                <option value="premium">Premium Detail Package ($189+)</option>
-                                <option value="ultimate">Ultimate Detail Package ($349+)</option>
-                                <option value="custom">Custom Service (Call for Quote)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="date">Preferred Date *</label>
-                            <input type="date" id="date" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="time">Preferred Time *</label>
-                            <select id="time" class="form-control" required>
-                                <option value="">Select a Time</option>
-                                <option value="morning">Morning (8:00 AM - 12:00 PM)</option>
-                                <option value="afternoon">Afternoon (12:00 PM - 4:00 PM)</option>
-                                <option value="evening">Evening (4:00 PM - 6:00 PM)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message">Additional Notes</label>
-                            <textarea id="message" class="form-control" rows="4" placeholder="Any special requests or vehicle concerns..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">Book Appointment</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Contact Page -->
-    <section id="contact" class="page-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Contact Us</h2>
-            </div>
-            
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h3>Get in Touch</h3>
-                    
-                    <div class="contact-detail">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h4>Our Location</h4>
-                            <p>595 Alcovy Woods Dr, Lawrenceville, GA 30045</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-detail">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h4>Call Us</h4>
-                            <p>(678) 878-0393</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-detail">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>Email Us</h4>
-                            <p>info@mcgoosdetail.com</p>
-                        </div>
-                    </div>
-                    
-                    <div class="business-hours">
-                        <h3>Business Hours</h3>
-                        <table class="hours-table">
-                            <tr>
-                                <td>Monday - Friday</td>
-                                <td>8:00 AM - 6:00 PM</td>
-                            </tr>
-                            <tr>
-                                <td>Saturday</td>
-                                <td>8:00 AM - 6:00 PM</td>
-                            </tr>
-                            <tr>
-                                <td>Sunday</td>
-                                <td>10:00 AM - 4:00 PM</td>
-                            </tr>
-                        </table>
-                    </div>
+                <div class="logo" style="justify-content: center; color: var(--white); margin-bottom: 1.5rem;">
+                    <i class="fas fa-tree"></i>
+                    <span>GreenScape Landscaping</span>
                 </div>
                 
-                <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.324142912387!2d-84.01466812378845!3d33.95076407325041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f5bf5d4b2d8b5b%3A0x65b6c4e7a7d5e5a5!2s595%20Alcovy%20Woods%20Dr%2C%20Lawrenceville%2C%20GA%2030045!5e0!3m2!1sen!2sus!4v1689785438520!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">
-                <h3>McGoos Automotive Detail</h3>
-                <p>Professional automotive detailing services in Lawrenceville, GA. We restore and protect your vehicle with precision and care.</p>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#" data-page="home" class="nav-link">Home</a></li>
-                    <li><a href="#" data-page="about" class="nav-link">About Us</a></li>
-                    <li><a href="#" data-page="services" class="nav-link">Services</a></li>
-                    <li><a href="#" data-page="booking" class="nav-link">Book Online</a></li>
-                    <li><a href="#" data-page="contact" class="nav-link">Contact</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-social">
-                <h4>Follow Us</h4>
-                <div class="social-icons">
+                <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-yelp"></i></a>
+                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
                 </div>
                 
-                <div style="margin-top: 30px;">
-                    <h4>Newsletter</h4>
-                    <p>Subscribe for special offers and detailing tips!</p>
-                    <input type="email" placeholder="Your email" class="form-control" style="margin-top: 10px;">
-                    <button class="submit-btn" style="margin-top: 10px; padding: 10px 20px;">Subscribe</button>
+                <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; margin: 2rem 0;">
+                    <a href="tel:+15551234567" style="color: var(--white); text-decoration: none;"><i class="fas fa-phone-alt"></i> +1 (555) 123-4567</a>
+                    <a href="mailto:info@greenscapeexample.com" style="color: var(--white); text-decoration: none;"><i class="fas fa-envelope"></i> info@greenscapeexample.com</a>
                 </div>
+                
+                <p class="copyright">&copy; 2023 GreenScape Landscaping Demo. All rights reserved. This is a sample website for demonstration purposes.</p>
             </div>
-        </div>
-        
-        <div class="copyright">
-            <p>&copy; 2023 McGoos Automotive Detail. All rights reserved. | 595 Alcovy Woods Dr, Lawrenceville, GA 30045 | (678) 878-0393</p>
-        </div>
-    </footer>
-    
-    <!-- Booking Confirmation Modal -->
-    <div class="modal" id="bookingModal">
-        <div class="modal-content">
-            <div class="modal-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h3>Appointment Booked Successfully!</h3>
-            <p>Thank you for booking with McGoos Automotive Detail. We have received your appointment request and will contact you within 2 hours to confirm your appointment.</p>
-            <p>If you have any questions, please call us at <strong>(678) 878-0393</strong>.</p>
-            <button class="close-modal" id="closeModal">Close</button>
-        </div>
+        </footer>
     </div>
-    
+
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-        
-        // Page Navigation
-        const navLinksAll = document.querySelectorAll('.nav-link');
-        const pageSections = document.querySelectorAll('.page-section');
-        
-        navLinksAll.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
+        // Wait for the page to load
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            // Hide loading screen and show content after 2 seconds
+            setTimeout(function() {
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.visibility = 'hidden';
                 
-                // Close mobile menu if open
-                navLinks.classList.remove('active');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                mainContent.style.display = 'block';
                 
-                // Get target page
-                const targetPage = link.getAttribute('data-page');
+                // Trigger animations for elements in view
+                setTimeout(function() {
+                    animateOnScroll();
+                }, 300);
                 
-                // Update active nav link
-                navLinksAll.forEach(navLink => {
-                    navLink.classList.remove('active');
+            }, 2000);
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+            
+            // Page navigation
+            const navLinks = document.querySelectorAll('nav a, .btn[data-page]');
+            const pages = document.querySelectorAll('.page');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Close mobile menu if open
+                    navMenu.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    
+                    const pageId = this.getAttribute('data-page');
+                    
+                    // Hide all pages
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Show selected page
+                    document.getElementById(pageId).classList.add('active');
+                    
+                    // Scroll to top of page
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Animate elements on the new page
+                    setTimeout(animateOnScroll, 300);
                 });
-                link.classList.add('active');
-                
-                // Show target page
-                pageSections.forEach(section => {
-                    section.classList.remove('active-page');
-                    if (section.id === targetPage) {
-                        section.classList.add('active-page');
-                        
-                        // Scroll to top of the page section
-                        window.scrollTo({
-                            top: section.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
+            });
+            
+            // Scroll animation for elements
+            function animateOnScroll() {
+                // Animate service cards
+                const serviceCards = document.querySelectorAll('.service-card');
+                serviceCards.forEach((card, index) => {
+                    if (isElementInViewport(card)) {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 100);
                     }
                 });
-            });
-        });
-        
-        // Booking Form Submission
-        const bookingForm = document.getElementById('bookingForm');
-        const bookingModal = document.getElementById('bookingModal');
-        const closeModal = document.getElementById('closeModal');
-        
-        bookingForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Get form data
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-            const vehicle = document.getElementById('vehicle').value;
-            const service = document.getElementById('service').value;
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
-            
-            // In a real application, you would send this data to a server
-            // For this demo, we'll just show the confirmation modal
-            console.log({
-                name, phone, email, vehicle, service, date, time
-            });
-            
-            // Show confirmation modal
-            bookingModal.classList.add('active');
-            
-            // Reset form
-            bookingForm.reset();
-        });
-        
-        // Close modal
-        closeModal.addEventListener('click', () => {
-            bookingModal.classList.remove('active');
-        });
-        
-        // Close modal when clicking outside
-        bookingModal.addEventListener('click', (e) => {
-            if (e.target === bookingModal) {
-                bookingModal.classList.remove('active');
+                
+                // Animate gallery items
+                const galleryItems = document.querySelectorAll('.gallery-item');
+                galleryItems.forEach((item, index) => {
+                    if (isElementInViewport(item)) {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 100);
+                    }
+                });
             }
-        });
-        
-        // Set minimum date for booking to today
-        const dateInput = document.getElementById('date');
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.min = today;
-        
-        // Gallery image hover effect enhancement
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        galleryItems.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                item.style.transform = 'scale(1.05)';
-            });
             
-            item.addEventListener('mouseleave', () => {
-                item.style.transform = 'scale(1)';
-            });
-        });
-        
-        // Add animation to service cards on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-        
-        // Observe service cards
-        const serviceCards = document.querySelectorAll('.service-card');
-        serviceCards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'opacity 0.8s, transform 0.8s';
-            observer.observe(card);
-        });
-        
-        // Observe service tiers
-        const serviceTiers = document.querySelectorAll('.service-tier');
-        serviceTiers.forEach(tier => {
-            tier.style.opacity = '0';
-            tier.style.transform = 'translateX(-30px)';
-            tier.style.transition = 'opacity 0.8s, transform 0.8s';
-            observer.observe(tier);
+            // Check if element is in viewport
+            function isElementInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.9 &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            // Listen for scroll events to trigger animations
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Initialize animations on page load
+            animateOnScroll();
         });
     </script>
 </body>
